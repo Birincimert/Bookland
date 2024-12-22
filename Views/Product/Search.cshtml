@@ -1,0 +1,44 @@
+@model IEnumerable<Bookland.Models.Product>
+<head>
+    <link rel="stylesheet" href="~/css/home.css"/>
+</head>
+@{
+    ViewData["Title"] = "Search Results";
+}
+<div class="home">
+<h1>Arama Sonuçları</h1>
+
+@if (!Model.Any())
+{
+    <p>Eşleşen kitap yok.</p>
+}
+else
+{
+    <ul>
+         <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Title" />
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Title</h5>
+                            <p class="card-text">Yazar: @product.Author</p>
+                            <p class="card-text">Fiyat: @product.Price ₺</p>
+                            <button class="btn btn-primary">Sepete Ekle</button>
+                            
+                            <!-- Favorilere Ekle Butonu -->
+                            <form asp-controller="Product" asp-action="AddToFavorites" method="post" style="display: inline;">
+                                <input type="hidden" name="productId" value="@product.ProductID" />
+                                <button type="submit" class="btn btn-outline-danger float-end">
+                                    <i class="fa fa-heart"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </ul>
+}
+</div>
